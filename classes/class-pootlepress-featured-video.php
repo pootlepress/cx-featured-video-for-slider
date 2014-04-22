@@ -70,6 +70,8 @@ class Pootlepress_Featured_Video {
 
         add_shortcode( 'pp_fv_video', array(&$this, 'video_shortcode') );
 
+
+
 	} // End __construct()
 
     public function add_meta_box() {
@@ -147,6 +149,10 @@ class Pootlepress_Featured_Video {
     public function load_script() {
         $pluginFile = dirname(dirname(__FILE__)) . '/pootlepress-masonry-shop.php';
         wp_enqueue_script('pootlepress-featured-video', plugin_dir_url($pluginFile) . 'scripts/featured-video.js', array('jquery'));
+
+        $sliderFullWidthEnabled = get_option('woo_slider_biz_full', 'false');
+        $b = ($sliderFullWidthEnabled === 'true');
+        wp_localize_script('pootlepress-featured-video', 'FeaturedSliderParam', array('isSliderFullWidth' => $b));
     }
 
     public function video_shortcode( $attr, $content = '' ) {
@@ -281,12 +287,12 @@ class Pootlepress_Featured_Video {
             $html .= wp_mediaelement_fallback( $fileurl );
         $html .= '</video>';
 
-        $sliderFullWidthEnabled = get_option('woo_slider_biz_full', 'false');
-        if ($sliderFullWidthEnabled === 'true') {
+//        $sliderFullWidthEnabled = get_option('woo_slider_biz_full', 'false');
+//        if ($sliderFullWidthEnabled === 'true') {
             $html = sprintf( '<div style="max-width: 100%%;" class="wp-video">%s</div>', $html );
-        } else {
-            $html = sprintf( '<div style="width: %dpx; max-width: 100%%;" class="wp-video">%s</div>', $width, $html );
-        }
+//        } else {
+//            $html = sprintf( '<div style="width: %dpx; max-width: 100%%;" class="wp-video">%s</div>', $width, $html );
+//        }
 
         return apply_filters( 'wp_video_shortcode', $html, $atts, $video, $post_id, $library );
     }
