@@ -118,7 +118,7 @@ class Pootlepress_Featured_Video {
 
     public function save_post($postID) {
 
-        if ('slide' != $_POST['post_type']) {
+        if (isset($_POST['post_type']) && 'slide' != $_POST['post_type']) {
             return;
         }
 
