@@ -315,7 +315,7 @@ class Pootlepress_Featured_Video {
 
             $css .= "#loopedSlider .slide { text-align: center; }\n";
             $css .= "#loopedSlider .slide .wp-video { display: inline-block; }\n";
-
+            $css .= "#header { padding-left: 0 !important; padding-right: 0 !important; }\n";
             echo "<style>".$css."</style>";
     }
 
