@@ -7,8 +7,8 @@
     $(window).load(function () {
 
         $('#loopedSlider .slide > iframe').each(function () {
-            if (typeof 'FeaturedSliderParam' != 'undefined' && FeaturedSliderParam != null &&
-                FeaturedSliderParam.isSliderFullWidth) {
+//            if (typeof 'FeaturedSliderParam' != 'undefined' && FeaturedSliderParam != null &&
+//                FeaturedSliderParam.isSliderFullWidth) {
                 var width = $(this).attr('width');
                 var height = $(this).attr('height');
                 var ratio = height / width;
@@ -20,7 +20,7 @@
 
                 $(this).css('width', '100%');
                 $(this).css('height', newHeight + 'px');
-            }
+//            }
         });
     });
 
