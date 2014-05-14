@@ -35,37 +35,31 @@
                     var video = /(^.*\.mp4|m4v|mov|wmv|avi|mpg|ogv|3gp|3g2*)/gi;
 
                     if (itemurl.match(image)) {
-                        btnContent = '<img src="'+itemurl+'" alt="" /><a href="#" class="mlu_remove button">Remove Image</a>';
+                        //btnContent = '<img src="'+itemurl+'" alt="" /><a href="#" class="mlu_remove button">Remove Image</a>';
                     } else {
 
                         // No output preview if it's not an image.
                         // btnContent = '';
 
                         // Standard generic output if it's not an image.
-                        html = '<a href="'+itemurl+'" target="_blank" rel="external">View File</a>';
-
-                        btnContent = '<div class="no_image"><span class="file_link">'+html+'</span><a href="#" class="mlu_remove button">Remove</a></div>';
+//                        html = '<a href="'+itemurl+'" target="_blank" rel="external">View File</a>';
+//
+//                        btnContent = '<div class="no_image"><span class="file_link">'+html+'</span><a href="#" class="mlu_remove button">Remove</a></div>';
                     }
 
                     $( '#' + formfield).val(itemurl);
-                    $( '#' + formfield).siblings( '.screenshot').slideDown().html(btnContent);
+//                    $( '#' + formfield).siblings( '.screenshot').slideDown().html(btnContent);
                     tb_remove();
 
                     if (formfield == 'pp-fv-video-url') {
                         $('#pp-fv-container #pp-fv-set-video').hide();
 
-                        $('#pp-fv-container').append(btnContent);
+                        $('#pp-fv-container .no_image .file_link a').attr('href', itemurl);
                         $('#pp-fv-video-add-from').val('file');
 
-                        // if remove button is pressed
-                        $('#pp-fv-container .mlu_remove').click(function () {
+                        $('#pp-fv-container .no_image').show();
 
-                            $('#pp-fv-container .no_image').remove();
-
-                            $('#pp-fv-container input').val('');
-
-                            $('#pp-fv-container #pp-fv-set-video').show();
-                        });
+                        $('#pp-fv-container .additional-options').hide();
                     }
 
                 } else {
@@ -90,33 +84,37 @@
             $('#pp-fv-container #pp-fv-set-video').hide();
 
             var videoUrl = $('#pp-fv-video-url').val();
+//
+//            var html = '<a href="' + videoUrl + '" target="_blank" rel="external">View File</a>';
+//
+//            var btnContent = '<div class="no_image"><span class="file_link">'+html+'</span><a href="#" class="mlu_remove button">Remove</a></div>';
 
-            var html = '<a href="' + videoUrl + '" target="_blank" rel="external">View File</a>';
+            $('#pp-fv-container .no_image .file_link a').attr('href', videoUrl);
 
-            var btnContent = '<div class="no_image"><span class="file_link">'+html+'</span><a href="#" class="mlu_remove button">Remove</a></div>';
+            $('#pp-fv-container .no_image').show();
 
-            $('#pp-fv-container').append(btnContent);
+            if(videoUrl.indexOf('vimeo') >= 0) {
+                $('#pp-fv-container .additional-options').show();
+            } else {
+                $('#pp-fv-container .additional-options').hide();
+            }
 
-            // if remove button is pressed
-            $('#pp-fv-container .mlu_remove').click(function () {
-
-                $('#pp-fv-container .no_image').remove();
-
-                $('#pp-fv-container input').val('');
-
-                $('#pp-fv-container #pp-fv-set-video').show();
-            });
         });
 
-        $('#pp-fv-container .mlu_remove').click(function () {
+        $('#pp-fv-container .remove-button').click(function () {
 
-            $('#pp-fv-container .no_image').remove();
+            $('#pp-fv-container .no_image').hide();
 
             $('#pp-fv-container input').val('');
 
             $('#pp-fv-container #pp-fv-set-video').show();
         });
 
+        if ($('#pp-fv-video-add-from').val() == 'url' && $('#pp-fv-video-url').val().indexOf('vimeo') >= 0) {
+            $('#pp-fv-container .additional-options').show();
+        } else {
+            $('#pp-fv-container .additional-options').hide();
+        }
     });
 
 })(jQuery);

@@ -8,3 +8,19 @@
 {
     width: 170px;
 }
+
+#pp-fv-container .no_image .separator
+{
+    height: 10px;
+}
+
+#pp-fv-container .no_image label
+{
+    line-height: 2em;
+}
+
+#pp-fv-container .no_image label span
+{
+    width: 80px;
+    display: inline-block;
+}

@@ -60,12 +60,20 @@ if ( ! function_exists( 'woo_slider_biz_view' ) ) {
                         if (!empty($videoUrl)) {
                             if ($videoAddFrom == 'file') {
                                 $w = $args['width'];
-                                echo do_shortcode("[pp_fv_video src='$videoUrl'][/pp_fv_video]");
+
+                                echo do_shortcode("[pp_fv_video src='$videoUrl' ][/pp_fv_video]");
+
                             } else if ($videoAddFrom == 'url') {
                                 if (isset($GLOBALS['wp_embed'])) {
                                     $em = $GLOBALS['wp_embed'];
                                     $e = $em->run_shortcode("[embed width='960']" . $videoUrl . "[/embed]");
                                     echo $e;
+
+                                    $autoplay = get_post_meta($post->ID, 'pp_fv_autoplay', true) == '1';
+                                    $loop = get_post_meta($post->ID, 'pp_fv_loop', true) == '1';
+                                    $opts = array('autoplay' => $autoplay, 'loop' => $loop);
+                                    echo "<script>var PPFVSettings = PPFVSettings ? PPFVSettings : {}</script>";
+                                    echo "<script>PPFVSettings['{$post->ID}'] = " . json_encode($opts) . ";</script>";
                                 }
                             }
 

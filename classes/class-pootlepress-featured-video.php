@@ -79,12 +79,14 @@ class Pootlepress_Featured_Video {
     }
 
     public function featured_video_meta_box($post) {
-            $videoUrl = get_post_meta( $post->ID, 'pp_fv_video_url', true );
-            $addFrom = get_post_meta($post->ID, 'pp_fv_add_from', true);
-            echo $this->meta_box_html( $videoUrl, $addFrom, $post->ID );
+        $videoUrl = get_post_meta( $post->ID, 'pp_fv_video_url', true );
+        $addFrom = get_post_meta($post->ID, 'pp_fv_add_from', true);
+        $autoplay = get_post_meta($post->ID, 'pp_fv_autoplay', true);
+        $loop = get_post_meta($post->ID, 'pp_fv_loop', true);
+        echo $this->meta_box_html( $videoUrl, $addFrom, $autoplay, $loop, $post->ID );
     }
 
-    public function meta_box_html( $videoUrl = null, $addFrom = 'file', $post = null ) {
+    public function meta_box_html( $videoUrl, $addFrom, $autoplay, $loop, $post) {
 
         $post = get_post( $post );
         $upload_iframe_src = esc_url( get_upload_iframe_src('video', $post->ID ) );
@@ -106,9 +108,32 @@ class Pootlepress_Featured_Video {
         $content .= "</div>"; // pp-fv-set-video
 
         if ($videoUrl != '') {
-            $html = '<a href="' . esc_attr($videoUrl) . '" target="_blank" rel="external">View File</a>';
-            $content .= '<div class="no_image"><span class="file_link">' . $html . '</span><a href="#" class="mlu_remove button">Remove</a></div>';
+            $viewDisplay = '';
+        } else {
+            $viewDisplay = 'style="display: none;"';
         }
+
+        if ($autoplay == '1') {
+            $autoplayChecked = 'checked';
+        } else {
+            $autoplayChecked = '';
+        }
+
+        if ($loop == '1') {
+            $loopChecked = 'checked';
+        } else {
+            $loopChecked = '';
+        }
+
+        $html = '<a href="' . esc_attr($videoUrl) . '" target="_blank" rel="external">View File</a>';
+        $content .= '<div class="no_image" ' . $viewDisplay . ' ><span class="file_link">' . $html . '</span><a href="#" class="remove-button button">Remove</a>
+        <div class="additional-options">
+        <div class="separator"></div>
+        <label><span>Autoplay:</span><input type="checkbox" class="autoplay-checkbox" name="autoplay" value="1" ' . $autoplayChecked . '/></label><br />
+        <label><span>Loop:</span><input type="checkbox" class="loop-checkbox" name="loop" value="1" ' . $loopChecked . '/></label>
+        </div>
+        </div>';
+
         $content .= "<input id='pp-fv-video-url' name='featured-video-url' type='hidden' value='" . esc_attr($videoUrl) . "' />";
         $content .= "<input id='pp-fv-video-add-from' name='featured-video-add-from' type='hidden' value='" . esc_attr($addFrom) . "'/>";
         $content .= "</div>";
@@ -122,11 +147,23 @@ class Pootlepress_Featured_Video {
             return;
         }
 
-        if (isset($_REQUEST['featured-video-url']) && !empty($_REQUEST['featured-video-url']) &&
-            isset($_REQUEST['featured-video-add-from']) && !empty($_REQUEST['featured-video-add-from']))
+        if (isset($_REQUEST['featured-video-url']) &&
+            isset($_REQUEST['featured-video-add-from']))
         {
             update_post_meta($postID, 'pp_fv_video_url', $_REQUEST['featured-video-url']);
             update_post_meta($postID, 'pp_fv_add_from', $_REQUEST['featured-video-add-from']);
+        }
+
+        if (isset($_REQUEST['autoplay'])) {
+            update_post_meta($postID, 'pp_fv_autoplay', '1');
+        } else {
+            update_post_meta($postID, 'pp_fv_autoplay', '0');
+        }
+
+        if (isset($_REQUEST['loop'])) {
+            update_post_meta($postID, 'pp_fv_loop', '1');
+        } else {
+            update_post_meta($postID, 'pp_fv_loop', '0');
         }
     }
 
@@ -153,6 +190,8 @@ class Pootlepress_Featured_Video {
         $sliderFullWidthEnabled = get_option('woo_slider_biz_full', 'false');
         $b = ($sliderFullWidthEnabled === 'true');
         wp_localize_script('pootlepress-featured-video', 'FeaturedSliderParam', array('isSliderFullWidth' => $b));
+
+
     }
 
     public function video_shortcode( $attr, $content = '' ) {
