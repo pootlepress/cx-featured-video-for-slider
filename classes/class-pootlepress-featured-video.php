@@ -150,7 +150,8 @@ class Pootlepress_Featured_Video {
         if (isset($_REQUEST['featured-video-url']) &&
             isset($_REQUEST['featured-video-add-from']))
         {
-            update_post_meta($postID, 'pp_fv_video_url', $_REQUEST['featured-video-url']);
+            $videoUrl = $_REQUEST['featured-video-url'];
+            update_post_meta($postID, 'pp_fv_video_url', $videoUrl);
             update_post_meta($postID, 'pp_fv_add_from', $_REQUEST['featured-video-add-from']);
         }
 
@@ -165,6 +166,18 @@ class Pootlepress_Featured_Video {
         } else {
             update_post_meta($postID, 'pp_fv_loop', '0');
         }
+    }
+
+    private function convertUrlQuery($query) {
+        $queryParts = explode('&', $query);
+
+        $params = array();
+        foreach ($queryParts as $param) {
+            $item = explode('=', $param);
+            $params[$item[0]] = urldecode($item[1]);
+        }
+
+        return $params;
     }
 
     public function load_admin_script() {
