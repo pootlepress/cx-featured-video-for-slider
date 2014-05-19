@@ -1,7 +1,7 @@
 Canvas Extensions - Featured Video for Slider
 ================================================
 
-Watch the demo here: http://www.pootlepress.com/shop/mobile-menu-manager-woothemes-canvas/
+Watch the demo here: http://www.pootlepress.com/shop/featured-video-slider-woothemes-canvas/
 
 Instructions
 
