@@ -93,7 +93,10 @@
 
             $('#pp-fv-container .no_image').show();
 
-            if(videoUrl.indexOf('vimeo') >= 0 || videoUrl.indexOf('http://www.youtube.com/watch?v=') >= 0) {
+            if(videoUrl.indexOf('vimeo') >= 0 ||
+                videoUrl.indexOf('http://www.youtube.com/watch?v=') >= 0 ||
+                videoUrl.indexOf('youtu.be') >= 0
+                ) {
                 $('#pp-fv-container .additional-options').show();
             } else {
                 $('#pp-fv-container .additional-options').hide();
@@ -112,7 +115,9 @@
 
         if ($('#pp-fv-video-add-from').val() == 'url' &&
             ($('#pp-fv-video-url').val().indexOf('vimeo') >= 0 ||
-                $('#pp-fv-video-url').val().indexOf('http://www.youtube.com/watch?v=') >= 0)) {
+                $('#pp-fv-video-url').val().indexOf('http://www.youtube.com/watch?v=') >= 0 ||
+                $('#pp-fv-video-url').val().indexOf('youtu.be') >= 0
+                )) {
             $('#pp-fv-container .additional-options').show();
         } else {
             $('#pp-fv-container .additional-options').hide();

@@ -107,8 +107,16 @@ class Pootlepress_Featured_Video {
         $content .= ' <button id="pp-fv-add-url-button" class="button">Add</button>';
         $content .= "</div>"; // pp-fv-set-video
 
+        $optionDisplay = 'style="display: none;"';
+
         if ($videoUrl != '') {
             $viewDisplay = '';
+
+            if(strpos($videoUrl, 'vimeo') >= 0 ||
+                strpos($videoUrl, 'http://www.youtube.com/watch?v=') >= 0 ||
+                strpos($videoUrl, 'youtu.be') >= 0) {
+                $optionDisplay = '';
+            }
         } else {
             $viewDisplay = 'style="display: none;"';
         }
@@ -127,7 +135,7 @@ class Pootlepress_Featured_Video {
 
         $html = '<a href="' . esc_attr($videoUrl) . '" target="_blank" rel="external">View File</a>';
         $content .= '<div class="no_image" ' . $viewDisplay . ' ><span class="file_link">' . $html . '</span><a href="#" class="remove-button button">Remove</a>
-        <div class="additional-options">
+        <div class="additional-options" ' . $optionDisplay . '>
         <div class="separator"></div>
         <label><span>Autoplay:</span><input type="checkbox" class="autoplay-checkbox" name="autoplay" value="1" ' . $autoplayChecked . '/></label><br />
         <label><span>Loop:</span><input type="checkbox" class="loop-checkbox" name="loop" value="1" ' . $loopChecked . '/></label>
