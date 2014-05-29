@@ -10,6 +10,8 @@ Instructions
 
 Versions
 
+v1.1.1 - Add support for youtu.be url. Playback options will appear or disappear at beginning of page load, not during page load.
+
 v1.1.0 - Auto-play and loop options for Vimeo and YouTube
 
 v1.0.0 - Initial release
