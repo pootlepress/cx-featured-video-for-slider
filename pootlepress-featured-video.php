@@ -19,8 +19,8 @@ require_once( 'classes/class-pootlepress-updater.php');
 $GLOBALS['pootlepress_featured_video'] = new Pootlepress_Featured_Video( __FILE__ );
 $GLOBALS['pootlepress_featured_video']->version = '1.1.1';
 
-add_action('init', 'pp_cmnl_updater');
-function pp_cmnl_updater()
+add_action('init', 'pp_fvfs_updater');
+function pp_fvfs_updater()
 {
     if (!function_exists('get_plugin_data')) {
         include(ABSPATH . 'wp-admin/includes/plugin.php');
