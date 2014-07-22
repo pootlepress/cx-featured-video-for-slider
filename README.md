@@ -10,6 +10,8 @@ Instructions
 
 Versions
 
+v1.2 - add ability to update in WordPress
+
 v1.1.1 - Add support for youtu.be url. Playback options will appear or disappear at beginning of page load, not during page load. Check for woo_add_options on install.
 
 v1.1.0 - Auto-play and loop options for Vimeo and YouTube
