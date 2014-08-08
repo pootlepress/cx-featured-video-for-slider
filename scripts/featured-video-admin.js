@@ -84,10 +84,6 @@
             $('#pp-fv-container #pp-fv-set-video').hide();
 
             var videoUrl = $('#pp-fv-video-url').val();
-//
-//            var html = '<a href="' + videoUrl + '" target="_blank" rel="external">View File</a>';
-//
-//            var btnContent = '<div class="no_image"><span class="file_link">'+html+'</span><a href="#" class="mlu_remove button">Remove</a></div>';
 
             $('#pp-fv-container .no_image .file_link a').attr('href', videoUrl);
 
@@ -102,6 +98,16 @@
                 $('#pp-fv-container .additional-options').hide();
             }
 
+        });
+
+        $('#pp-fv-add-embed-code-button').click(function () {
+
+            if ($('#pp-fv-embed-code-text-area').val() == '') {
+                return;
+            }
+
+            $('#pp-fv-video-url').val($('#pp-fv-embed-code-text-area').val());
+            $('#pp-fv-video-add-from').val('embed-code');
         });
 
         $('#pp-fv-container .remove-button').click(function () {

@@ -79,17 +79,20 @@ class Pootlepress_Featured_Video {
     }
 
     public function featured_video_meta_box($post) {
-        $videoUrl = get_post_meta( $post->ID, 'pp_fv_video_url', true );
+        $videoUrlOrEmbedCode = get_post_meta( $post->ID, 'pp_fv_video_url', true );
         $addFrom = get_post_meta($post->ID, 'pp_fv_add_from', true);
         $autoplay = get_post_meta($post->ID, 'pp_fv_autoplay', true);
         $loop = get_post_meta($post->ID, 'pp_fv_loop', true);
-        echo $this->meta_box_html( $videoUrl, $addFrom, $autoplay, $loop, $post->ID );
+        echo $this->meta_box_html( $videoUrlOrEmbedCode, $addFrom, $autoplay, $loop, $post->ID );
     }
 
-    public function meta_box_html( $videoUrl, $addFrom, $autoplay, $loop, $post) {
+    public function meta_box_html( $videoUrlOrEmbedCode, $addFrom, $autoplay, $loop, $post) {
 
         $post = get_post( $post );
         $upload_iframe_src = esc_url( get_upload_iframe_src('video', $post->ID ) );
+
+        $videoUrl = ($addFrom == 'embed-code' ? '' : $videoUrlOrEmbedCode);
+        $videoEmbedCode = ($addFrom == 'embed-code' ? $videoUrlOrEmbedCode : '');
 
         if ( $videoUrl) {
             $setLinkDisplay = 'style="display: none;"';
@@ -103,8 +106,13 @@ class Pootlepress_Featured_Video {
         $set_video_link = '<p class="hide-if-no-js set-link"><a title="' . esc_attr__( 'Set featured video' ) . '" href="%s" id="set-post-video" class="thickbox">%s</a></p>';
         $content .= sprintf( $set_video_link, $upload_iframe_src, esc_html__( 'Set featured video' ) );
         $content .= "<label>Url: <input id='pp-fv-url-text-box' type='text' /></label>";
-//        $content .= "<br />";
-        $content .= ' <button id="pp-fv-add-url-button" class="button">Add</button>';
+        $content .= '<button id="pp-fv-add-url-button" class="button">Add</button>';
+        $content .= "<br /><br />";
+        $content .= "<label>Embed Code: <br />";
+        $content .= "<textarea id='pp-fv-embed-code-text-area'>" . esc_html($videoEmbedCode) . "</textarea>";
+        $content .= "</label>";
+        $content .= '<button id="pp-fv-add-embed-code-button" class="button">Add</button>';
+
         $content .= "</div>"; // pp-fv-set-video
 
         $optionDisplay = 'style="display: none;"';
@@ -142,7 +150,7 @@ class Pootlepress_Featured_Video {
         </div>
         </div>';
 
-        $content .= "<input id='pp-fv-video-url' name='featured-video-url' type='hidden' value='" . esc_attr($videoUrl) . "' />";
+        $content .= "<input id='pp-fv-video-url' name='featured-video-url' type='hidden' value='" . esc_attr($videoUrlOrEmbedCode) . "' />";
         $content .= "<input id='pp-fv-video-add-from' name='featured-video-add-from' type='hidden' value='" . esc_attr($addFrom) . "'/>";
         $content .= "</div>";
 
@@ -205,7 +213,7 @@ class Pootlepress_Featured_Video {
     }
 
     public function load_script() {
-        $pluginFile = dirname(dirname(__FILE__)) . '/pootlepress-masonry-shop.php';
+        $pluginFile = $this->file;
         wp_enqueue_script('pootlepress-featured-video', plugin_dir_url($pluginFile) . 'scripts/featured-video.js', array('jquery'));
 
         $sliderFullWidthEnabled = get_option('woo_slider_biz_full', 'false');

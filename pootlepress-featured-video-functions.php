@@ -82,7 +82,7 @@ if ( ! function_exists( 'woo_slider_biz_view' ) ) {
                             if ($videoAddFrom == 'file') {
                                 $w = $args['width'];
 
-                                echo do_shortcode("[pp_fv_video src='$videoUrl' ][/pp_fv_video]");
+                                echo do_shortcode("[pp_fv_video src='$videoUrl' width='$w' ][/pp_fv_video]");
 
                             } else if ($videoAddFrom == 'url') {
                                 if (isset($GLOBALS['wp_embed'])) {
@@ -96,6 +96,12 @@ if ( ! function_exists( 'woo_slider_biz_view' ) ) {
                                     echo "<script>var PPFVSettings = PPFVSettings ? PPFVSettings : {}</script>";
                                     echo "<script>PPFVSettings['{$post->ID}'] = " . json_encode($opts) . ";</script>";
                                 }
+                            } else if ($videoAddFrom == 'embed-code') {
+
+                                $videoEmbedCode = $videoUrl;
+
+                                echo $videoEmbedCode;
+
                             }
 
                             $url = get_post_meta( $post->ID, 'url', true );
