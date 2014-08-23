@@ -10,6 +10,8 @@ Instructions
 
 Versions
 
+v1.3 - add ability to use any full embed code for videos
+
 v1.2 - add ability to update in WordPress
 
 v1.1.1 - Add support for youtu.be url. Playback options will appear or disappear at beginning of page load, not during page load. Check for woo_add_options on install.
